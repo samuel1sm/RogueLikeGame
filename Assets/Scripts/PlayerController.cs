@@ -25,6 +25,14 @@ public class @PlayerController : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""69fd0775-c579-433b-ad31-2e3850ed1adf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -82,6 +90,17 @@ public class @PlayerController : IInputActionCollection, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1c40c96a-536f-4aba-b2f0-8e6a32b3b268"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -91,6 +110,7 @@ public class @PlayerController : IInputActionCollection, IDisposable
         // Terrain
         m_Terrain = asset.FindActionMap("Terrain", throwIfNotFound: true);
         m_Terrain_Movement = m_Terrain.FindAction("Movement", throwIfNotFound: true);
+        m_Terrain_Attack = m_Terrain.FindAction("Attack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -141,11 +161,13 @@ public class @PlayerController : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Terrain;
     private ITerrainActions m_TerrainActionsCallbackInterface;
     private readonly InputAction m_Terrain_Movement;
+    private readonly InputAction m_Terrain_Attack;
     public struct TerrainActions
     {
         private @PlayerController m_Wrapper;
         public TerrainActions(@PlayerController wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Terrain_Movement;
+        public InputAction @Attack => m_Wrapper.m_Terrain_Attack;
         public InputActionMap Get() { return m_Wrapper.m_Terrain; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -158,6 +180,9 @@ public class @PlayerController : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_TerrainActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_TerrainActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_TerrainActionsCallbackInterface.OnMovement;
+                @Attack.started -= m_Wrapper.m_TerrainActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_TerrainActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_TerrainActionsCallbackInterface.OnAttack;
             }
             m_Wrapper.m_TerrainActionsCallbackInterface = instance;
             if (instance != null)
@@ -165,6 +190,9 @@ public class @PlayerController : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
             }
         }
     }
@@ -172,5 +200,6 @@ public class @PlayerController : IInputActionCollection, IDisposable
     public interface ITerrainActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

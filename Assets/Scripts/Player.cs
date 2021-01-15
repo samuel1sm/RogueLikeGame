@@ -11,11 +11,15 @@ public class Player : MonoBehaviour
     private SpriteRenderer playerSpriteR;
     private float lastAngle;
 
+    private Rigidbody2D rb;
+
     private void Awake()
     {
         lastAngle = 0;
         pc = new PlayerController();
         playerSpriteR = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+
     }
 
     private void OnEnable()
@@ -31,14 +35,14 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-
+        pc.Terrain.Attack.performed += _ => Attack();
     }
 
     private void FixedUpdate()
     {
         Vector3 movement = pc.Terrain.Movement.ReadValue<Vector2>();
-        transform.position += movement * Time.deltaTime * playerSpeed;
-
+        // transform.position += movement * Time.deltaTime * playerSpeed;
+        rb.MovePosition(transform.position + movement * Time.deltaTime * playerSpeed);
         if (movement.x != 0)
         {
             // transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
@@ -69,5 +73,10 @@ public class Player : MonoBehaviour
     {
 
 
+    }
+
+    public void Attack()
+    {
+        print("dasdas");
     }
 }
