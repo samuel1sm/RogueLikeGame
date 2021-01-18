@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: RapierOverride
+  m_Controller: {fileID: 9100000, guid: bb3fb3127d985af4793da19ab0ca4cf6, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 5b98d3d2846f9b24f8b2b9a08052b56c, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3f1d14ec6baca444fb5189dff14f28d9, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2e7a531a01ecc05409035e328619e43b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 72c04a79d4aca8e458dfa1b41b4e5f8c, type: 2}

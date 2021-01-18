@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float playerSpeed;
+    private AttackController attackController;
     private PlayerController pc;
     private SpriteRenderer playerSpriteR;
     private float lastAngle;
@@ -19,7 +21,7 @@ public class Player : MonoBehaviour
         pc = new PlayerController();
         playerSpriteR = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
-
+        attackController = GetComponentInChildren<AttackController>();
     }
 
     private void OnEnable()
@@ -36,26 +38,26 @@ public class Player : MonoBehaviour
     void Start()
     {
         pc.Terrain.Attack.performed += _ => Attack();
+        pc.Terrain.ChangeWeapon.performed += _ => ChangeWeapon();
+
     }
+
+
 
     private void FixedUpdate()
     {
         Vector3 movement = pc.Terrain.Movement.ReadValue<Vector2>();
-        // transform.position += movement * Time.deltaTime * playerSpeed;
         rb.MovePosition(transform.position + movement * Time.deltaTime * playerSpeed);
         if (movement.x != 0)
         {
-            // transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
             playerSpriteR.flipX = movement.x < 0;
         }
-        // transform.rotation = Quaternion.AngleAxis(movement.x < 0? 180 : 0 , Vector3.up);
 
 
         if (movement != Vector3.zero)
         {
             float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
-            // Mathf.Atan2(movement.x * -1, movement.y) * Mathf.Rad2Deg
-            // print(angle + " " + Vector3.Angle(movement, Vector3.right));
+
             if (lastAngle != angle)
             {
                 transform.GetChild(0).RotateAround(transform.position, Vector3.forward, -lastAngle);
@@ -74,9 +76,13 @@ public class Player : MonoBehaviour
 
 
     }
+    private void ChangeWeapon()
+    {
+        attackController.Set(0);
+    }
 
     public void Attack()
     {
-        print("dasdas");
+        attackController.Attack();
     }
 }

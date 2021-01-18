@@ -33,6 +33,14 @@ public class @PlayerController : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ChangeWeapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""d6074c01-cded-4634-ab68-cecfa059499c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -101,6 +109,17 @@ public class @PlayerController : IInputActionCollection, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""30068372-c734-4948-bac5-2f471ce1c8e6"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -111,6 +130,7 @@ public class @PlayerController : IInputActionCollection, IDisposable
         m_Terrain = asset.FindActionMap("Terrain", throwIfNotFound: true);
         m_Terrain_Movement = m_Terrain.FindAction("Movement", throwIfNotFound: true);
         m_Terrain_Attack = m_Terrain.FindAction("Attack", throwIfNotFound: true);
+        m_Terrain_ChangeWeapon = m_Terrain.FindAction("ChangeWeapon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -162,12 +182,14 @@ public class @PlayerController : IInputActionCollection, IDisposable
     private ITerrainActions m_TerrainActionsCallbackInterface;
     private readonly InputAction m_Terrain_Movement;
     private readonly InputAction m_Terrain_Attack;
+    private readonly InputAction m_Terrain_ChangeWeapon;
     public struct TerrainActions
     {
         private @PlayerController m_Wrapper;
         public TerrainActions(@PlayerController wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Terrain_Movement;
         public InputAction @Attack => m_Wrapper.m_Terrain_Attack;
+        public InputAction @ChangeWeapon => m_Wrapper.m_Terrain_ChangeWeapon;
         public InputActionMap Get() { return m_Wrapper.m_Terrain; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -183,6 +205,9 @@ public class @PlayerController : IInputActionCollection, IDisposable
                 @Attack.started -= m_Wrapper.m_TerrainActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_TerrainActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_TerrainActionsCallbackInterface.OnAttack;
+                @ChangeWeapon.started -= m_Wrapper.m_TerrainActionsCallbackInterface.OnChangeWeapon;
+                @ChangeWeapon.performed -= m_Wrapper.m_TerrainActionsCallbackInterface.OnChangeWeapon;
+                @ChangeWeapon.canceled -= m_Wrapper.m_TerrainActionsCallbackInterface.OnChangeWeapon;
             }
             m_Wrapper.m_TerrainActionsCallbackInterface = instance;
             if (instance != null)
@@ -193,6 +218,9 @@ public class @PlayerController : IInputActionCollection, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @ChangeWeapon.started += instance.OnChangeWeapon;
+                @ChangeWeapon.performed += instance.OnChangeWeapon;
+                @ChangeWeapon.canceled += instance.OnChangeWeapon;
             }
         }
     }
@@ -201,5 +229,6 @@ public class @PlayerController : IInputActionCollection, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnChangeWeapon(InputAction.CallbackContext context);
     }
 }
