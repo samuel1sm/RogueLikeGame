@@ -13,9 +13,9 @@ public class AttackController : MonoBehaviour
         attackController = GetComponent<Animator>();
     }
 
-    public void Set(int value)
+    public void Set(WeaponTypes weaponTypes)
     {
-        overrider.SetAnimations(overrideControllers[value]);
+        overrider.SetAnimations(overrideControllers[(int) weaponTypes]);
     }
 
 

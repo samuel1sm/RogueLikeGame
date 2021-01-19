@@ -160,8 +160,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   overrideControllers:
-  - {fileID: 22100000, guid: cc81c381739728847a027cad230b710f, type: 2}
   - {fileID: 22100000, guid: 52c55c6cd564b7f49846880e9ec0f3bf, type: 2}
+  - {fileID: 22100000, guid: cc81c381739728847a027cad230b710f, type: 2}
 --- !u!1 &8618464961487228328
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,5 +307,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 314e53f4ff6aa614c8cf473e3746f182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  espada: {fileID: 8618464961487228328}
-  playerSpeed: 20
+  playerSpeed: 10

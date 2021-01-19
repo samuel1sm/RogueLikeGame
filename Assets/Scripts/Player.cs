@@ -12,11 +12,16 @@ public class Player : MonoBehaviour
     private PlayerController pc;
     private SpriteRenderer playerSpriteR;
     private float lastAngle;
-
     private Rigidbody2D rb;
 
+    private WeaponTypes[] playerWeapons = new WeaponTypes[2];
+    private bool firstWeaponSelected;
     private void Awake()
     {
+        playerWeapons[0] = WeaponTypes.SWORD;
+        playerWeapons[1] = WeaponTypes.LANCE;
+        firstWeaponSelected = false;
+
         lastAngle = 0;
         pc = new PlayerController();
         playerSpriteR = GetComponent<SpriteRenderer>();
@@ -78,7 +83,9 @@ public class Player : MonoBehaviour
     }
     private void ChangeWeapon()
     {
-        attackController.Set(0);
+
+        attackController.Set(firstWeaponSelected? playerWeapons[0] : playerWeapons[1]);
+        firstWeaponSelected = !firstWeaponSelected;
     }
 
     public void Attack()
