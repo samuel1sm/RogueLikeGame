@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         playerWeapons[0] = WeaponTypes.SWORD;
-        playerWeapons[1] = WeaponTypes.LANCE;
+        playerWeapons[1] = WeaponTypes.BOW;
         firstWeaponSelected = false;
 
         lastAngle = 0;
@@ -92,4 +92,6 @@ public class Player : MonoBehaviour
     {
         attackController.Attack();
     }
+
+
 }
