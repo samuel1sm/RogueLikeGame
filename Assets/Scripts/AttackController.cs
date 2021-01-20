@@ -2,25 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class AttackController : MonoBehaviour
 {
-    [SerializeField] private AnimatorOverrideController[] overrideControllers;
-    private WeaponAnimatorOverrider overrider;
-    Animator attackController;
+    [SerializeField] private GenericWeapon[] weapons = new GenericWeapon[2];
+    private Animator _animator;
+
+
+    private GameObject projectile;
+
     private void Awake()
     {
-        overrider = GetComponent<WeaponAnimatorOverrider>();
-        attackController = GetComponent<Animator>();
-    }
-
-    public void Set(WeaponTypes weaponTypes)
-    {
-        overrider.SetAnimations(overrideControllers[(int) weaponTypes]);
+        _animator = GetComponent<Animator>();
+        projectile = transform.GetChild(0).GetChild(0).gameObject;
     }
 
 
-    public void Attack()
+    public void SetAnimations(AnimatorOverrideController overrideController)
     {
-        attackController.SetTrigger("isAttacking");
+        _animator.runtimeAnimatorController = overrideController;
+    }
+
+
+    public void ChangeWeapon(int i)
+    {
+        SetAnimations(weapons[i].GetWeaponAnimations());
+    }
+
+
+    public void Attack(int i)
+    {
+
+        _animator.SetTrigger("isAttacking");
+        weapons[i].Attack();
+
+    }
+
+    public void Shoot()
+    {
+        print("HelloThere");
     }
 }

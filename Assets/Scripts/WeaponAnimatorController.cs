@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-    public class WeaponAnimatorOverrider : MonoBehaviour
+    public class WeaponAnimatorController : MonoBehaviour
     {
         private Animator _animator;
+
+  
 
         private void Awake()
         {
@@ -16,5 +18,10 @@ using UnityEngine;
         {
         _animator.runtimeAnimatorController = overrideController;
         }
-    }
+
+        public Animator GetAnimator()
+        {
+            return _animator;
+        }
+}
 

@@ -14,12 +14,12 @@ public class Player : MonoBehaviour
     private float lastAngle;
     private Rigidbody2D rb;
 
-    private WeaponTypes[] playerWeapons = new WeaponTypes[2];
+    private WeaponType[] playerWeapons = new WeaponType[2];
     private bool firstWeaponSelected;
     private void Awake()
     {
-        playerWeapons[0] = WeaponTypes.SWORD;
-        playerWeapons[1] = WeaponTypes.BOW;
+        playerWeapons[0] = WeaponType.SWORD;
+        playerWeapons[1] = WeaponType.BOW;
         firstWeaponSelected = false;
 
         lastAngle = 0;
@@ -84,13 +84,13 @@ public class Player : MonoBehaviour
     private void ChangeWeapon()
     {
 
-        attackController.Set(firstWeaponSelected? playerWeapons[0] : playerWeapons[1]);
+        attackController.ChangeWeapon(firstWeaponSelected? 0 : 1);
         firstWeaponSelected = !firstWeaponSelected;
     }
 
     public void Attack()
     {
-        attackController.Attack();
+        attackController.Attack(firstWeaponSelected ? 0 : 1);
     }
 
 
