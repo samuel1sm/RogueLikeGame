@@ -7,20 +7,21 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private float itemCollectionRadious;
+    [SerializeField] private List<GameObject> weapons;
+    [SerializeField] private LayerMask collectLayer;
     [SerializeField] private float playerSpeed;
+
     private AttackController attackController;
     private PlayerController pc;
     private SpriteRenderer playerSpriteR;
-    private float lastAngle;
+    private GameObject atualWeapon;
+    private RaycastHit2D lastItem;
     private Rigidbody2D rb;
+    private float lastAngle;
 
-    private WeaponType[] playerWeapons = new WeaponType[2];
-    private bool firstWeaponSelected;
     private void Awake()
     {
-        playerWeapons[0] = WeaponType.SWORD;
-        playerWeapons[1] = WeaponType.BOW;
-        firstWeaponSelected = false;
 
         lastAngle = 0;
         pc = new PlayerController();
@@ -42,9 +43,11 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        ChangeWeapon();
+
         pc.Terrain.Attack.performed += _ => Attack();
         pc.Terrain.ChangeWeapon.performed += _ => ChangeWeapon();
-
+        pc.Terrain.CollectItem.performed += _ => CollectItem();
     }
 
 
@@ -67,6 +70,8 @@ public class Player : MonoBehaviour
             {
                 transform.GetChild(0).RotateAround(transform.position, Vector3.forward, -lastAngle);
                 transform.GetChild(0).RotateAround(transform.position, Vector3.forward, angle);
+
+
             }
 
             lastAngle = angle;
@@ -79,18 +84,94 @@ public class Player : MonoBehaviour
     void Update()
     {
 
+        ItemRangeCollect();
 
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, itemCollectionRadious);
+    }
+
+
+    private void CollectItem()
+    {
+        if (lastItem.collider != null)
+        {
+            if (lastItem.transform.tag == "Weapon")
+            {
+                GameObject previusWeapon =  Instantiate(atualWeapon);
+                previusWeapon.transform.position = transform.position;
+                atualWeapon = lastItem.transform.gameObject;
+                weapons[1] = atualWeapon;
+                Destroy(lastItem.transform.gameObject);
+                lastItem = new RaycastHit2D();
+                UpdateAnimation();
+            }
+        }
+    }
+
+    private void ActivateItem(bool activate)
+    {
+        if (activate)
+        {
+            lastItem.transform.GetComponent<SpriteRenderer>().color = Color.gray;
+            lastItem.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else{
+            lastItem.transform.GetComponent<SpriteRenderer>().color = Color.white;
+            lastItem.transform.GetChild(0).gameObject.SetActive(false);
+
+        }
+    }
+
+
+    private bool ItemRangeCollect()
+    {
+        RaycastHit2D item = Physics2D.CircleCast(transform.position, itemCollectionRadious, Vector2.left, 0 ,collectLayer);
+
+
+        if (item.collider != null)
+        {
+
+            if (item.collider != lastItem.collider && lastItem.collider != null)
+                ActivateItem(false);
+
+            lastItem = item;
+            ActivateItem(true);
+
+            return true;
+        }
+        else
+        {
+
+            if(lastItem.collider != null)
+            {
+                ActivateItem(false);
+                lastItem = item;
+            }
+
+            return false;
+        }
+    }
+
+    private void UpdateAnimation()
+    {
+        attackController.ChangeWeapon(atualWeapon.GetComponent<GenericWeapon>());
+    }
+
     private void ChangeWeapon()
     {
-
-        attackController.ChangeWeapon(firstWeaponSelected? 0 : 1);
-        firstWeaponSelected = !firstWeaponSelected;
+        //atualWeapon = weapons.Dequeue();
+        atualWeapon = weapons[0];
+        UpdateAnimation();
+        weapons.Add(atualWeapon);
+        weapons.RemoveAt(0);
     }
 
     public void Attack()
     {
-        attackController.Attack(firstWeaponSelected ? 0 : 1);
+        attackController.Attack(atualWeapon.GetComponent<GenericWeapon>());
     }
 
 

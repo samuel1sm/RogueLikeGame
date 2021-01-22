@@ -5,10 +5,7 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour
 {
-    [SerializeField] private GenericWeapon[] weapons = new GenericWeapon[2];
     private Animator _animator;
-
-
     private GameObject projectile;
 
     private void Awake()
@@ -24,22 +21,21 @@ public class AttackController : MonoBehaviour
     }
 
 
-    public void ChangeWeapon(int i)
+    public void ChangeWeapon(GenericWeapon weapon)
     {
-        SetAnimations(weapons[i].GetWeaponAnimations());
+
+        SetAnimations(weapon.GetWeaponAnimations());
     }
 
 
-    public void Attack(int i)
+    public void Attack(GenericWeapon weapon)
     {
-
         _animator.SetTrigger("isAttacking");
-        weapons[i].Attack();
+        weapon.Attack();
 
     }
 
     public void Shoot()
     {
-        print("HelloThere");
     }
 }

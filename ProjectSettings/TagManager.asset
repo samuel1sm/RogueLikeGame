@@ -13,7 +13,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Collectables
   - 
   - 
   - 
@@ -46,4 +46,7 @@ TagManager:
     locked: 0
   - name: Walls
     uniqueID: 946250781
+    locked: 0
+  - name: Hud
+    uniqueID: 1613250743
     locked: 0

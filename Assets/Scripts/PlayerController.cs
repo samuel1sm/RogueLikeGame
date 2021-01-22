@@ -41,6 +41,14 @@ public class @PlayerController : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""CollectItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""7be2eca5-55d6-40aa-a955-0693cf0f1cfe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -120,6 +128,17 @@ public class @PlayerController : IInputActionCollection, IDisposable
                     ""action"": ""ChangeWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2c96743-c8b6-4713-9fbe-e45fe58b0c9a"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CollectItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -131,6 +150,7 @@ public class @PlayerController : IInputActionCollection, IDisposable
         m_Terrain_Movement = m_Terrain.FindAction("Movement", throwIfNotFound: true);
         m_Terrain_Attack = m_Terrain.FindAction("Attack", throwIfNotFound: true);
         m_Terrain_ChangeWeapon = m_Terrain.FindAction("ChangeWeapon", throwIfNotFound: true);
+        m_Terrain_CollectItem = m_Terrain.FindAction("CollectItem", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,6 +203,7 @@ public class @PlayerController : IInputActionCollection, IDisposable
     private readonly InputAction m_Terrain_Movement;
     private readonly InputAction m_Terrain_Attack;
     private readonly InputAction m_Terrain_ChangeWeapon;
+    private readonly InputAction m_Terrain_CollectItem;
     public struct TerrainActions
     {
         private @PlayerController m_Wrapper;
@@ -190,6 +211,7 @@ public class @PlayerController : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_Terrain_Movement;
         public InputAction @Attack => m_Wrapper.m_Terrain_Attack;
         public InputAction @ChangeWeapon => m_Wrapper.m_Terrain_ChangeWeapon;
+        public InputAction @CollectItem => m_Wrapper.m_Terrain_CollectItem;
         public InputActionMap Get() { return m_Wrapper.m_Terrain; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -208,6 +230,9 @@ public class @PlayerController : IInputActionCollection, IDisposable
                 @ChangeWeapon.started -= m_Wrapper.m_TerrainActionsCallbackInterface.OnChangeWeapon;
                 @ChangeWeapon.performed -= m_Wrapper.m_TerrainActionsCallbackInterface.OnChangeWeapon;
                 @ChangeWeapon.canceled -= m_Wrapper.m_TerrainActionsCallbackInterface.OnChangeWeapon;
+                @CollectItem.started -= m_Wrapper.m_TerrainActionsCallbackInterface.OnCollectItem;
+                @CollectItem.performed -= m_Wrapper.m_TerrainActionsCallbackInterface.OnCollectItem;
+                @CollectItem.canceled -= m_Wrapper.m_TerrainActionsCallbackInterface.OnCollectItem;
             }
             m_Wrapper.m_TerrainActionsCallbackInterface = instance;
             if (instance != null)
@@ -221,6 +246,9 @@ public class @PlayerController : IInputActionCollection, IDisposable
                 @ChangeWeapon.started += instance.OnChangeWeapon;
                 @ChangeWeapon.performed += instance.OnChangeWeapon;
                 @ChangeWeapon.canceled += instance.OnChangeWeapon;
+                @CollectItem.started += instance.OnCollectItem;
+                @CollectItem.performed += instance.OnCollectItem;
+                @CollectItem.canceled += instance.OnCollectItem;
             }
         }
     }
@@ -230,5 +258,6 @@ public class @PlayerController : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnChangeWeapon(InputAction.CallbackContext context);
+        void OnCollectItem(InputAction.CallbackContext context);
     }
 }

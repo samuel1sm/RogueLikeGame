@@ -6,7 +6,7 @@ public class BasicSword : MeleeWeapon
 {
     public override void Attack()
     {
-        print("attacked " + weaponType);
+
     }
 
     public override AnimatorOverrideController GetWeaponAnimations()

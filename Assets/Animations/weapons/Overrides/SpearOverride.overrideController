@@ -6,7 +6,7 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RapierOverride
+  m_Name: SpearOverride
   m_Controller: {fileID: 9100000, guid: bb3fb3127d985af4793da19ab0ca4cf6, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 5b98d3d2846f9b24f8b2b9a08052b56c, type: 2}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 public enum WeaponType{
-    SWORD, LANCE, BOW, STAFF
+    SWORD, Spear, BOW, STAFF
 }
 
 public enum AttackType{
@@ -14,7 +14,7 @@ public enum AttackType{
 public class UtilClass{
 
     public static Dictionary<WeaponType, AttackType> WeaponAttackTypes = new Dictionary<WeaponType, AttackType> { { WeaponType.SWORD, AttackType.MELEE },
-        { WeaponType.LANCE, AttackType.MELEE },{ WeaponType.BOW, AttackType.RANGE },{ WeaponType.STAFF, AttackType.RANGE } };
+        { WeaponType.Spear, AttackType.MELEE },{ WeaponType.BOW, AttackType.RANGE },{ WeaponType.STAFF, AttackType.RANGE } };
 }
 
 

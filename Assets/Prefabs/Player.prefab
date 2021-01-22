@@ -106,7 +106,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8618464960550407642}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6077677274275628130}
@@ -174,7 +174,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8618464961275948234}
   - component: {fileID: 8618464961275948235}
-  - component: {fileID: 8618464961275948233}
   - component: {fileID: 8618464961275948232}
   m_Layer: 0
   m_Name: Weapon
@@ -191,7 +190,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8618464961275948237}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.582, y: 0, z: 0}
+  m_LocalPosition: {x: 0.582, y: 0.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8618464960550407643}
@@ -217,18 +216,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &8618464961275948233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8618464961275948237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35b320744138fe04b94c579f903bbbc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8618464961275948232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,11 +228,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 490cde4c47c71bc4392f8db58a6858c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  overrideControllers:
-  - {fileID: 22100000, guid: 52c55c6cd564b7f49846880e9ec0f3bf, type: 2}
-  - {fileID: 22100000, guid: cc81c381739728847a027cad230b710f, type: 2}
-  - {fileID: 22100000, guid: bd947486244db5e4da447e5f68f0d64b, type: 2}
-  - {fileID: 22100000, guid: cc81c381739728847a027cad230b710f, type: 2}
+  weapons:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &8618464961487228328
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,3 +377,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 10
+  collectLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  itemCollectionRadious: 1

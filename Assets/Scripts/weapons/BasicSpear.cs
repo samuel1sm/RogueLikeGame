@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicBow : RangeWeapon
+public class BasicSpear : MeleeWeapon
 {
     public override void Attack()
     {
-
-
     }
 
     public override AnimatorOverrideController GetWeaponAnimations()
@@ -18,7 +16,7 @@ public class BasicBow : RangeWeapon
 
     public override void Shoot()
     {
-        print("HelloThere");
+        throw new System.NotImplementedException();
     }
 
     // Start is called before the first frame update
