@@ -11,12 +11,14 @@ public abstract class GenericWeapon : MonoBehaviour
     [SerializeField] protected WeaponType weaponType;
     [SerializeField] protected AttackType AttackType;
     [SerializeField] protected AnimatorOverrideController weaponAnimations;
+    [SerializeField] protected GameObject selfObject;
     public abstract void Attack();
     // Start is called before the first frame update
 
-    public abstract void Shoot();
+    public abstract void Shoot(GameObject projectile, GameObject spawnPosition);
 
     public abstract AnimatorOverrideController GetWeaponAnimations();
+    public abstract GameObject GetSelfObject();
 
 
 }

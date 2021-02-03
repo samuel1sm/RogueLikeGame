@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+public enum ProjectileType{
+    ARROW, MAGIC
+}
+
 public enum WeaponType{
     SWORD, Spear, BOW, STAFF
 }

@@ -7,6 +7,7 @@ public class AttackController : MonoBehaviour
 {
     private Animator _animator;
     private GameObject projectile;
+    [SerializeField] private Player player;
 
     private void Awake()
     {
@@ -28,14 +29,17 @@ public class AttackController : MonoBehaviour
     }
 
 
-    public void Attack(GenericWeapon weapon)
+    public void Attack()
     {
         _animator.SetTrigger("isAttacking");
+        GenericWeapon weapon = player.GetEquipedWeapon().GetComponent<GenericWeapon>();
         weapon.Attack();
 
     }
 
     public void Shoot()
     {
+        RangeWeapon weapon = player.GetEquipedWeapon().GetComponent<RangeWeapon>();
+        weapon.Shoot(weapon.GetProjectile(), projectile);
     }
 }

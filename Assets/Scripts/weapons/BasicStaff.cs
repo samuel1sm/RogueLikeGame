@@ -13,10 +13,13 @@ public class BasicStaff : RangeWeapon
         return weaponAnimations;
     }
 
-    public override void Shoot()
+
+    public override GameObject GetSelfObject()
     {
-        print("atirou 2");
+        return selfObject;
     }
+
+ 
 
     // Start is called before the first frame update
     void Start()
@@ -28,5 +31,11 @@ public class BasicStaff : RangeWeapon
     void Update()
     {
         
+    }
+
+    public override void Shoot(GameObject projectile, GameObject spawnPosition)
+    {
+        GameObject newProjectile = Instantiate(projectile, spawnPosition.transform.position, spawnPosition.transform.rotation);
+        newProjectile.GetComponent<Rigidbody2D>().velocity = spawnPosition.gameObject.transform.right * projectileSpeed;
     }
 }

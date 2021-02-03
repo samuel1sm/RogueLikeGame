@@ -10,15 +10,24 @@ public class BasicBow : RangeWeapon
 
     }
 
+
+    public override GameObject GetSelfObject()
+    {
+        return selfObject;
+    }
+
     public override AnimatorOverrideController GetWeaponAnimations()
     {
         return weaponAnimations;
 
     }
 
-    public override void Shoot()
+   
+
+    public override void Shoot(GameObject projectile, GameObject spawnPosition)
     {
-        print("HelloThere");
+        GameObject newProjectile = Instantiate(projectile, spawnPosition.transform.position, spawnPosition.transform.rotation);
+        newProjectile.GetComponent<Rigidbody2D>().velocity = spawnPosition.gameObject.transform.right * projectileSpeed;
     }
 
     // Start is called before the first frame update

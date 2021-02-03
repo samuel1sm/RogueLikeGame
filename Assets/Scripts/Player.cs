@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private List<GameObject> weapons;
     [SerializeField] private LayerMask collectLayer;
     [SerializeField] private float playerSpeed;
-
+    public static Vector2 ItemStoragePosition = new Vector2(999,999);
     private AttackController attackController;
     private PlayerController pc;
     private SpriteRenderer playerSpriteR;
@@ -48,6 +48,10 @@ public class Player : MonoBehaviour
         pc.Terrain.Attack.performed += _ => Attack();
         pc.Terrain.ChangeWeapon.performed += _ => ChangeWeapon();
         pc.Terrain.CollectItem.performed += _ => CollectItem();
+
+        weapons[0].transform.position = ItemStoragePosition;
+        weapons[1].transform.position = ItemStoragePosition;
+
     }
 
 
@@ -100,11 +104,11 @@ public class Player : MonoBehaviour
         {
             if (lastItem.transform.tag == "Weapon")
             {
-                GameObject previusWeapon =  Instantiate(atualWeapon);
-                previusWeapon.transform.position = transform.position;
+                atualWeapon.transform.position = lastItem.transform.position;
                 atualWeapon = lastItem.transform.gameObject;
                 weapons[1] = atualWeapon;
-                Destroy(lastItem.transform.gameObject);
+                atualWeapon.transform.position = ItemStoragePosition;
+                //Destroy(lastItem.transform.gameObject);
                 lastItem = new RaycastHit2D();
                 UpdateAnimation();
             }
@@ -171,8 +175,11 @@ public class Player : MonoBehaviour
 
     public void Attack()
     {
-        attackController.Attack(atualWeapon.GetComponent<GenericWeapon>());
+        attackController.Attack();
     }
 
-
+    public GameObject GetEquipedWeapon()
+    {
+        return atualWeapon;
+    }
 }
