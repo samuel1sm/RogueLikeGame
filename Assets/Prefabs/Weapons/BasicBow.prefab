@@ -211,17 +211,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6338771910260985911}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62a6da9b7eb72d94a8639294e2efcc03, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c475676949f02147bd10c137b352fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackQtd: 3
-  weaponDamage: 2
-  attackDelay: 3
-  weaponType: 2
-  AttackType: 0
-  weaponAnimations: {fileID: 22100000, guid: bd947486244db5e4da447e5f68f0d64b, type: 2}
-  selfObject: {fileID: 6338771910260985911}
-  projectileDuration: 2
-  projectileSpeed: 9
-  projectile: {fileID: 5176216727976518677, guid: c104ebe6266ca6d478c0d5d2ac1bb310,
-    type: 3}
+  weaponSo: {fileID: 11400000, guid: 52fb083471c633945a7c8d62cf0849b7, type: 2}

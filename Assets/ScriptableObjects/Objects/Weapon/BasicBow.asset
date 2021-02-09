@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602cc92fefadf824596f20006286dd1d, type: 3}
+  m_Name: BasicBow
+  m_EditorClassIdentifier: 
+  attackDelay: 3
+  weaponSprite: {fileID: -1476239714509409460, guid: e72a360576acaf44698704c25390e5f4,
+    type: 3}
+  damage: 0
+  weaponType: 2
+  attackType: 0
+  weaponAnimations: {fileID: 22100000, guid: bd947486244db5e4da447e5f68f0d64b, type: 2}
+  collectablePrefab: {fileID: 6338771910260985911, guid: 326d87f0aac936e4b9d70ba3fe5afdd6,
+    type: 3}
+  projectileDuration: 2
+  projectileSpeed: 13
+  projectile: {fileID: 5176216727976518672, guid: c104ebe6266ca6d478c0d5d2ac1bb310,
+    type: 3}

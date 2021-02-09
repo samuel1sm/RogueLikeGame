@@ -3,54 +3,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using weapons.GenericTypes;
 
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private float itemCollectionRadious;
-    [SerializeField] private List<GameObject> weapons;
+    [SerializeField] private List<WeaponSo> weapons;
     [SerializeField] private LayerMask collectLayer;
     [SerializeField] private float playerSpeed;
-    public static Vector2 ItemStoragePosition = new Vector2(999,999);
-    private AttackController attackController;
-    private PlayerController pc;
-    private SpriteRenderer playerSpriteR;
-    private GameObject atualWeapon;
-    private RaycastHit2D lastItem;
-    private Rigidbody2D rb;
-    private float lastAngle;
+
+    private AttackController _attackController;
+    private SpriteRenderer _playerSpriteR;
+    private WeaponSo _atualWeapon;
+    private RaycastHit2D _lastItem;
+    private PlayerController _pc;
+    private float _lastAngle;
+    private Rigidbody2D _rb;
+
+    public event Action<WeaponSo> OnWeaponChanged = delegate { };
 
     private void Awake()
     {
 
-        lastAngle = 0;
-        pc = new PlayerController();
-        playerSpriteR = GetComponent<SpriteRenderer>();
-        rb = GetComponent<Rigidbody2D>();
-        attackController = GetComponentInChildren<AttackController>();
+        _lastAngle = 0;
+        _pc = new PlayerController();
+        _playerSpriteR = GetComponent<SpriteRenderer>();
+        _rb = GetComponent<Rigidbody2D>();
+        _attackController = GetComponentInChildren<AttackController>();
     }
 
     private void OnEnable()
     {
-        pc.Enable();
+        _pc.Enable();
     }
 
 
     private void OnDisable()
     {
-        pc.Disable();
+        _pc.Disable();
     }
 
     void Start()
     {
         ChangeWeapon();
 
-        pc.Terrain.Attack.performed += _ => Attack();
-        pc.Terrain.ChangeWeapon.performed += _ => ChangeWeapon();
-        pc.Terrain.CollectItem.performed += _ => CollectItem();
-
-        weapons[0].transform.position = ItemStoragePosition;
-        weapons[1].transform.position = ItemStoragePosition;
+        _pc.Terrain.Attack.performed += _ => Attack();
+        _pc.Terrain.ChangeWeapon.performed += _ => ChangeWeapon();
+        _pc.Terrain.CollectItem.performed += _ => CollectItem();
 
     }
 
@@ -58,11 +58,11 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 movement = pc.Terrain.Movement.ReadValue<Vector2>();
-        rb.MovePosition(transform.position + movement * Time.deltaTime * playerSpeed);
+        Vector3 movement = _pc.Terrain.Movement.ReadValue<Vector2>();
+        _rb.MovePosition(transform.position + movement * (Time.deltaTime * playerSpeed));
         if (movement.x != 0)
         {
-            playerSpriteR.flipX = movement.x < 0;
+            _playerSpriteR.flipX = movement.x < 0;
         }
 
 
@@ -70,15 +70,16 @@ public class Player : MonoBehaviour
         {
             float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
 
-            if (lastAngle != angle)
+            if (_lastAngle != angle)
             {
-                transform.GetChild(0).RotateAround(transform.position, Vector3.forward, -lastAngle);
-                transform.GetChild(0).RotateAround(transform.position, Vector3.forward, angle);
+                var position = transform.position;
+                transform.GetChild(0).RotateAround(position, Vector3.forward, -_lastAngle);
+                transform.GetChild(0).RotateAround(position, Vector3.forward, angle);
 
 
             }
 
-            lastAngle = angle;
+            _lastAngle = angle;
         }
 
 
@@ -98,18 +99,23 @@ public class Player : MonoBehaviour
     }
 
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        print(collision.gameObject.tag);
+    }
+
+
     private void CollectItem()
     {
-        if (lastItem.collider != null)
+        if (_lastItem.collider != null)
         {
-            if (lastItem.transform.tag == "Weapon")
+            if (_lastItem.transform.CompareTag("Weapon"))
             {
-                atualWeapon.transform.position = lastItem.transform.position;
-                atualWeapon = lastItem.transform.gameObject;
-                weapons[1] = atualWeapon;
-                atualWeapon.transform.position = ItemStoragePosition;
-                //Destroy(lastItem.transform.gameObject);
-                lastItem = new RaycastHit2D();
+                Instantiate(_atualWeapon.collectablePrefab, _lastItem.transform.position, Quaternion.identity);
+                _atualWeapon = _lastItem.transform.GetComponent<CollectableWeapon>().GetItemSo();
+                weapons[1] = _atualWeapon;
+                Destroy(_lastItem.transform.gameObject);
+                _lastItem = new RaycastHit2D();
                 UpdateAnimation();
             }
         }
@@ -119,12 +125,12 @@ public class Player : MonoBehaviour
     {
         if (activate)
         {
-            lastItem.transform.GetComponent<SpriteRenderer>().color = Color.gray;
-            lastItem.transform.GetChild(0).gameObject.SetActive(true);
+            _lastItem.transform.GetComponent<SpriteRenderer>().color = Color.gray;
+            _lastItem.transform.GetChild(0).gameObject.SetActive(true);
         }
         else{
-            lastItem.transform.GetComponent<SpriteRenderer>().color = Color.white;
-            lastItem.transform.GetChild(0).gameObject.SetActive(false);
+            _lastItem.transform.GetComponent<SpriteRenderer>().color = Color.white;
+            _lastItem.transform.GetChild(0).gameObject.SetActive(false);
 
         }
     }
@@ -138,10 +144,10 @@ public class Player : MonoBehaviour
         if (item.collider != null)
         {
 
-            if (item.collider != lastItem.collider && lastItem.collider != null)
+            if (item.collider != _lastItem.collider && _lastItem.collider != null)
                 ActivateItem(false);
 
-            lastItem = item;
+            _lastItem = item;
             ActivateItem(true);
 
             return true;
@@ -149,10 +155,10 @@ public class Player : MonoBehaviour
         else
         {
 
-            if(lastItem.collider != null)
+            if(_lastItem.collider != null)
             {
                 ActivateItem(false);
-                lastItem = item;
+                _lastItem = item;
             }
 
             return false;
@@ -161,25 +167,28 @@ public class Player : MonoBehaviour
 
     private void UpdateAnimation()
     {
-        attackController.ChangeWeapon(atualWeapon.GetComponent<GenericWeapon>());
+        OnWeaponChanged(_atualWeapon);
+        //attackController.ChangeWeapon(atualWeapon.GetComponent<GenericWeapon>());
     }
 
     private void ChangeWeapon()
     {
         //atualWeapon = weapons.Dequeue();
-        atualWeapon = weapons[0];
+        _atualWeapon = weapons[0];
         UpdateAnimation();
-        weapons.Add(atualWeapon);
+        weapons.Add(_atualWeapon);
         weapons.RemoveAt(0);
     }
 
     public void Attack()
     {
-        attackController.Attack();
+        _attackController.Attack();
     }
 
-    public GameObject GetEquipedWeapon()
+    public WeaponSo GetEquipedWeapon()
     {
-        return atualWeapon;
+        return _atualWeapon;
     }
+
+
 }

@@ -194,16 +194,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4287705344801966069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e265682c444a29469aa5548dbf8ef0f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c475676949f02147bd10c137b352fa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackQtd: 0
-  weaponDamage: 0
-  attackDelay: 0
-  weaponType: 1
-  AttackType: 1
-  weaponAnimations: {fileID: 22100000, guid: 836ceeef91fc70548a20adf250124822, type: 2}
-  selfObject: {fileID: 4287705344801966069}
+  weaponSo: {fileID: 11400000, guid: 3b89b26aa57ce154597c19f176e26302, type: 2}
 --- !u!58 &4287705344801966057
 CircleCollider2D:
   m_ObjectHideFlags: 0

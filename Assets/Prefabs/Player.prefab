@@ -381,4 +381,4 @@ MonoBehaviour:
   collectLayer:
     serializedVersion: 2
     m_Bits: 256
-  playerSpeed: 10
+  playerSpeed: 9
